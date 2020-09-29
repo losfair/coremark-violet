@@ -1,0 +1,6 @@
+*.log
+*.exe
+dm.*.txt
+im.txt
+*.bin
+dump
