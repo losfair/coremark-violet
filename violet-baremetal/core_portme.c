@@ -63,6 +63,7 @@ static CORETIMETYPE start_time_val, stop_time_val;
 volatile ee_u32 *time_low = (volatile ee_u32 *) 0xfe000010;
 volatile ee_u32 *time_high = (volatile ee_u32 *) 0xfe000014;
 volatile ee_u32 *putchar_port = (volatile ee_u32 *) 0xfe000000;
+volatile ee_u32 *terminate_port = (volatile ee_u32 *) 0xfe000004;
 
 CORETIMETYPE cycle_count = 1;
 
@@ -163,6 +164,7 @@ void
 portable_fini(core_portable *p)
 {
     p->portable_id = 0;
+    *terminate_port = 1;
 }
 
 void _putchar(char c) {
