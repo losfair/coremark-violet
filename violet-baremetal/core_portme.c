@@ -164,6 +164,20 @@ void
 portable_fini(core_portable *p)
 {
     p->portable_id = 0;
+
+    unsigned int cycle, cycleh, instret, instreth, brmiss, brmissh;
+
+    asm("csrr %0, cycle" : "=r"(cycle) ::);
+    asm("csrr %0, cycleh" : "=r"(cycleh) ::);
+    asm("csrr %0, instret" : "=r"(instret) ::);
+    asm("csrr %0, instreth" : "=r"(instreth) ::);
+    asm("csrr %0, 0xc04" : "=r"(brmiss) ::);
+    asm("csrr %0, 0xc84" : "=r"(brmissh) ::);
+
+    ee_printf("#cycle: %llu\n", (((unsigned long long) cycleh) << 32) | (unsigned long long) cycle);
+    ee_printf("#instret: %llu\n", (((unsigned long long) instreth) << 32) | (unsigned long long) instret);
+    ee_printf("#brmiss: %llu\n", (((unsigned long long) brmissh) << 32) | (unsigned long long) brmiss);
+    
     *terminate_port = 1;
 }
 
